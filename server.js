@@ -54,7 +54,7 @@ app.use('/voiture', routes);
 app.use(express.static('client/build'));
 
 app.get('/*', (_,res) => {
-    res.sendFile(path.join(__dirname, './client/build/index.html'));
+    res.sendFile(path.join(__dirname, './app/client/build/index.html'));
 })
 
 
