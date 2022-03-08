@@ -1,0 +1,17 @@
+.accueil {
+    width: 100vw;
+    min-height: 100vh;
+
+    h1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 100vh;
+        font-size: 10rem;
+
+        @media(max-width: 900px) {
+            font-size: 5rem;
+        }
+    }
+}

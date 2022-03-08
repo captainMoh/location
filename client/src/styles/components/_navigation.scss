@@ -1,0 +1,42 @@
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+
+    a {
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: $color-1;
+            height: 1px;
+            width: 100%;
+            transition: all .3s ease-in-out;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            background-color: red;
+            height: 1px;
+            width: 100%;
+            transition: all .3s ease-in-out;
+        }
+
+        &:hover {
+            &::before {
+                transform: translateX(101%);
+            }
+
+            &::after {
+                transform: translateX(100%);
+            }
+        }
+    }
+}

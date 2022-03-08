@@ -1,0 +1,99 @@
+.home {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+    gap: 2rem;
+
+    .titre {
+        width: 100%;
+    }
+
+    .calendrier_reservation {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80vw;
+        background: $color-1;
+        border-radius: 10px;
+        text-align: center;
+
+        .calendrier {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+
+            #champs {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                width: 100%;
+                
+                input, select {
+                    padding: 5px 10px;
+                    background-color: rgba($color: #000000, $alpha: 0.0);
+                    border: 1px solid $color-3;
+                }
+                
+                @media(max-width: 900px) {
+                    flex-direction: column;
+                }
+            }
+
+            .premier-jour, .dernier-jour, #lieu_rdv {
+                display: flex;
+                gap: 5px;
+            }
+
+            #start, #end {
+                cursor: pointer;
+            }
+
+            .valider {
+                cursor: pointer;
+                border: solid 2px $color-1;
+                border-radius: 5px;
+                padding: 5px 10px;
+                background-color: $color-3;
+                color: $color-2;
+                transition: all .5s;
+
+                &:hover {
+                    background-color: $color-1;
+                    color: $color-3;
+                    border: solid 2px $color-3;
+                }
+
+                &:active {
+                    transform: scale(0.9);
+                }
+            }
+
+            
+        }
+
+        .afficheTemps {
+            text-align: center;
+            width: 100%;
+            font-size: x-large;
+        }
+    }
+
+    .cartes {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 95%;
+
+        .aucuneVoiture {
+            color: $color-1;
+        }
+    }
+}

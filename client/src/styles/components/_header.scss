@@ -1,0 +1,32 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css");
+
+.header {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    color: $color-1;
+    width: 100vw;
+    border-bottom: 2px solid $color-1;
+    padding-bottom: 5px;
+
+    @media(max-width: 900px) {
+        flex-direction: column;
+    }
+
+    .title {
+        width: 50%;
+        @media(max-width: 900px) {
+            width: 100%;
+        }
+    }
+
+    .nav {
+        width: 50%;
+        align-self: flex-end;
+
+        @media(max-width: 900px) {
+            width: 100%;
+        }
+        
+    }
+}
