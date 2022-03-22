@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.58010710.css",
+    "main.css": "/static/css/main.59364512.css",
     "main.js": "/static/js/main.bedec827.js",
     "static/media/logan.png": "/static/media/logan.24f2c774e863ccbbc526.png",
     "static/media/stepway.png": "/static/media/stepway.ddc6e6ea06996c28db38.png",
@@ -9,11 +9,11 @@
     "static/media/208.png": "/static/media/208.7f9cd278d07928ef44f9.png",
     "static/media/tail-spin.svg": "/static/media/tail-spin.86194a552d45044eea10396f20518cab.svg",
     "index.html": "/index.html",
-    "main.58010710.css.map": "/static/css/main.58010710.css.map",
+    "main.59364512.css.map": "/static/css/main.59364512.css.map",
     "main.bedec827.js.map": "/static/js/main.bedec827.js.map"
   },
   "entrypoints": [
-    "static/css/main.58010710.css",
+    "static/css/main.59364512.css",
     "static/js/main.bedec827.js"
   ]
 }
