@@ -50,7 +50,7 @@ app.post('/create-payment-intent', async (req, res) => {
     }
 })
 
-app.post('/contacts', async (req, res) => {
+app.use('/contacts', async (req, res) => {
 
     const information = req.body.object
 

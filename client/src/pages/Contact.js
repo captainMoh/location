@@ -23,7 +23,7 @@ const Contact = () => {
         e.preventDefault();
         
         try {
-            await axios.post('http://localhost:5000/contacts', {object}, options)
+            await axios.post('/contacts', {object}, options)
             .then(res => console.log(res))
         } catch (err) {
             console.log(err);
