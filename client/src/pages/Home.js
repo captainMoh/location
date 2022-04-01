@@ -3,6 +3,7 @@ import axios from 'axios'
 import CardsVoitures from '../components/CardsVoitures';
 import Header from '../components/Header';
 import loader from '../assets/tail-spin.svg';
+import Footer from '../components/Footer';
 
 const Home = () => {
 
@@ -147,9 +148,7 @@ const Home = () => {
 
             </div>
 
-            <div style={{color: '#f1f1f1'}} className="footer">
-                ©copyright
-            </div>
+            <Footer />
         </div>
     );
 };

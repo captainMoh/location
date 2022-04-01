@@ -42,5 +42,28 @@
                 transform: translateX(100%);
             }
         }
+
+        &.active {
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background-color: red;
+                height: 2px;
+                width: 100%;
+                transition: all .3s ease-in-out;
+            }
+
+            &:hover {
+                &::before {
+                    transform: translateX(0);
+                }
+    
+                &::after {
+                    transform: translateX(0);
+                }
+            }
+        }
     }
 }

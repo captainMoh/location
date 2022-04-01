@@ -5,7 +5,7 @@ $font-1: "Poppins", sans-serif;
 $color-1: #f1f1f1;
 $color-2: aliceblue;
 $color-3: #101010;
-$color-4: gray;
+$color-4: rgb(43, 43, 43);
 
 *, ::after, ::before {
   box-sizing: border-box;
@@ -17,6 +17,7 @@ body {
   width: 100vw;
   font-family: $font-1;
   color: $color-3;
+  min-height: 100%;
   background-color: $color-3;
   overflow-x: hidden;
 }

@@ -3,6 +3,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faLocation } from '@fortawesome/free-solid-svg-icons';
+import { NavLink } from 'react-router-dom';
 
 const Accueil = () => {
     return (
@@ -17,11 +18,12 @@ const Accueil = () => {
                         Agence de location voiture et mobylette.<br/>
                         Passez vos vacances à un prix avantageux.
                     </p>
+                    <NavLink className='link' to={'/reservation-voiture'}><span>Réservez votre voiture</span></NavLink>
                     <p className='numero'>
                         <FontAwesomeIcon icon={faPhone} /> <a href = "tel:+212639674394">+212 6 39 67 43 94</a> / <a href = "tel:+212625053393">+212 6 25 05 33 93</a>
                     </p>
                     <p className='adresse'>
-                        <FontAwesomeIcon icon={faLocation} /> 28 Rue El Motanabi Hay salam - Berkane <br/>
+                        <FontAwesomeIcon icon={faLocation} /> 28 Rue El Moutanabi Hay salam - Berkane <br/>
                         ou <br/>
                         82 Rue Khalid Ibn Walid - Ahfir
                     </p>

@@ -15,19 +15,29 @@ const Contact = () => {
         message
     }
 
+
     const options = {
         headers: {'Content-Type': 'application/json; charset=UTF-8'}
     }
 
     const submit = async e => {
-        e.preventDefault();
+        //e.preventDefault();
+
+        alert('mail envoyé')
         
         try {
             await axios.post('/contacts', {object}, options)
-            .then(res => console.log(res))
+            .then(() => {
+                setNom('')
+                setMail('')
+                setMessage('')
+            })
+            
         } catch (err) {
-            console.log(err);
+            console.log(err.response.data);
         }
+
+        
     }
 
 

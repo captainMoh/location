@@ -226,7 +226,7 @@ const Form = () => {
                             <option>+212</option>
                             <option>+33</option>
                             <option>+32</option>
-                        </select><input type="tel" placeholder="0650123456" value={telephone}  onChange={e => setTelephone(e.target.value)} pattern="[+0-9]{13}|[0-9]{10}" id="input-tel" />
+                        </select><input type="tel" placeholder="0650123456" value={telephone}  onChange={e => setTelephone(e.target.value)} pattern="[0-9]{10}|[0-9]{9}" id="input-tel" />
                         
                     </div>
 
