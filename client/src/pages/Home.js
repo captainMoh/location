@@ -8,12 +8,12 @@ const Home = () => {
 
     const today = new Date().toISOString().split('T')[0]
     let jour = new Date(today)
-    jour.setDate(jour.getDate() + 1)
+    jour.setDate(jour.getDate() + 3)
     let demain = jour.toISOString().split('T')[0]
 
     const [start, setStart] = useState(today)
     const [end, setEnd] = useState(demain)
-    const [time, setTime] = useState(1)
+    const [time, setTime] = useState(3)
     const [heure, setHeure] = useState('08:30')
     const [lieuRdv, setLieuRdv] = useState('Ahfir')
     const [aucuneVoitureLibre, setAucuneVoitureLibre] = useState(false)
@@ -28,7 +28,7 @@ const Home = () => {
         setStart(e.target.value)
 
         let day = new Date(e.target.value)
-        day.setDate(day.getDate() + 1)
+        day.setDate(day.getDate() + 3)
         let tomorrow = day.toISOString().split('T')[0]
         setEnd(tomorrow)
     }

@@ -6,6 +6,10 @@
     a {
         position: relative;
         overflow: hidden;
+        
+        @media(max-width: 400px) {
+            font-size: small;
+        }
 
         &::before {
             content: '';

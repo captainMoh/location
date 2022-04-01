@@ -4,7 +4,7 @@ import { faCheckCircle, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const Success = () => {
 
-    const [second, setSecond] = useState(5)
+    const [second, setSecond] = useState(9)
 
     useEffect(() => {
 
@@ -14,11 +14,11 @@ const Success = () => {
 
         setTimeout(() => {
             window.location.href='/'
-            }, 5000);
+            }, 9000);
 
         return () => clearInterval(timer)
         
-    }); 
+    });
     
     
 
@@ -27,12 +27,12 @@ const Success = () => {
             <div className="box">
                 <div className="entete">
                     <FontAwesomeIcon className='icone' icon={faCheckCircle} />
-                    <h1>Paiement réussi</h1>
+                    <h1>Paiement effectué</h1>
                     
                 </div>
                 <div className="bas">
                     <p><FontAwesomeIcon className='check' icon={faCheck} /> Vous allez recevoir un email résumant votre réservation</p>
-                    <p>Vous allez être redirigé vers la page d'accueil dans {second} secondes</p>
+                    <p>Vous allez être redirigé vers la page d'accueil dans {second} {second > 1 ? <span>secondes</span> : <span>seconde</span>}</p>
                 </div>
             </div>
         </div>

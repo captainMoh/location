@@ -6,6 +6,7 @@ const routes = require('./routes/controllers');
 const app = express();
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 const cors = require('cors');
+const nodemailer = require('nodemailer');
 
 const storeItems = new Map([
     [1, {priceInCents: 5000, name: 'Peugeot 208'}],
@@ -46,6 +47,32 @@ app.post('/create-payment-intent', async (req, res) => {
             message: 'Payment Failed',
             success: false
         })
+    }
+})
+
+app.post('/contacts', async (req, res) => {
+
+    const information = req.body.object
+
+    console.log(information);
+
+    try {
+        let transporter = nodemailer.createTransport({
+            service:'gmail',
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASSWORD
+            },
+        });
+    
+        let info = await transporter.sendMail({
+            from: 'aichoun026@gmail.com',
+            to: `${information.mail}`,
+            subject: `${information.nom}`,
+            text: `${information.message}`
+        });
+    } catch (err) {
+        console.log(err);
     }
 })
 

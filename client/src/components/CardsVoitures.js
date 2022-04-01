@@ -58,7 +58,7 @@ const CardsVoitures = ({ voiture, start, end, heure, lieuRdv, time }) => {
                     <h1>{time * prix}€</h1>
                     <p>{prix}€/Jour</p>
                 </div>
-                <Link to={`formulaire/${start}/${end}/${heure}/${lieuRdv}/${voiture.voiture}/${voiture._id}`}>Payer maintenant <FontAwesomeIcon icon={faAngleDoubleRight} /></Link>
+                <Link to={`formulaire/${start}/${end}/${heure}/${lieuRdv}/${voiture.voiture}/${voiture._id}`}>Réserver maintenant <FontAwesomeIcon icon={faAngleDoubleRight} /></Link>
             </div>
         </div>
     );

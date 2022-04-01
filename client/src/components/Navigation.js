@@ -6,7 +6,7 @@ const Navigation = () => {
         <div className='navigation'>
             <Link to={'/'}><span>Accueil</span></Link>
             <Link to={'/reservation-voiture'}><span>Reservez-maintenant</span></Link>
-            <Link to={'#'}><span>Contact</span></Link>
+            <Link to={'/contact'}><span>Contact</span></Link>
         </div>
     );
 };
