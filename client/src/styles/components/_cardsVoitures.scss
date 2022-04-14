@@ -31,11 +31,23 @@
         justify-content: center;
         gap: 15px;
 
+        @supports not (gap: 15px) {
+            & > *:not(:first-child) {
+                margin-top: 15px;
+            }
+        }
+
         .infos_prix {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 20px;
+
+            @supports not (gap: 20px) {
+                & > *:not(:first-child) {
+                    margin-left: 20px;
+                }
+            }
         }
         
         & a {
@@ -45,6 +57,7 @@
             border-radius: 5px;
             background-color: $color-3;
             color: $color-1;
+            font-size: large;
 
             &:active {
                 border: solid 2px $color-4;

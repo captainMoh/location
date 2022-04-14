@@ -6,6 +6,12 @@
     gap: 20px;
     min-height: 100vh;
     color: $color-1;
+
+    @supports not (gap: 20px) {
+        & > *:not(:first-child) {
+            margin-top: 20px;
+        }
+    }
     
 
     input, .input_card, #input-adresse, select {
@@ -36,6 +42,12 @@
         display: flex;
         gap: 1rem;
         padding: 0 1rem;
+
+        @supports not (gap: 1rem) {
+            & > *:not(:first-child) {
+                margin-left: 1rem;
+            }
+        }
 
         @media(max-width: 900px) {
             flex-direction: column;
@@ -69,6 +81,12 @@
                 gap: 1rem;
                 font-size: xx-large;
 
+                @supports not (gap: 1rem) {
+                    & > *:not(:first-child) {
+                        margin-top: 1rem;
+                    }
+                }
+
                 span {
                     font-weight: bold;
                 }
@@ -88,6 +106,12 @@
             height: auto;
             padding: 1rem;
             border: 2px solid $color-1;
+
+            @supports not (gap: 1rem) {
+                & > *:not(:first-child) {
+                    margin-top: 1rem;
+                }
+            }
     
             @media(max-width: 900px) {
                 border: none;
@@ -97,6 +121,12 @@
             .radio {
                 display: flex;
                 gap: 10px;
+
+                @supports not (gap: 10px) {
+                    & > *:not(:first-child) {
+                        margin-left: 10px;
+                    }
+                }
             }
     
             .prenom-nom, .email, .ville-code, .adresse, .telephone {
@@ -104,6 +134,12 @@
                 align-items: center;
                 gap: 1rem;
                 width: 100%;
+
+                @supports not (gap: 1rem) {
+                    & > *:not(:first-child) {
+                        margin-left: 1rem;
+                    }
+                }
             }
               
             #input-prenom, #input-nom, #input-code, #input-ville {

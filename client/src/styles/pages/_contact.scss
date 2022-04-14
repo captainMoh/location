@@ -24,6 +24,12 @@
             height: 500px;
             border: 5px solid $color-1;
 
+            @supports not (gap: 1rem) {
+                & > *:not(:first-child) {
+                    margin-top: 1rem;
+                }
+            }
+
             @media(max-width: 900px) {
                 width: 100%;
             }
@@ -35,7 +41,7 @@
                 height: 100%;
                 left: 0;
                 z-index: -500;
-                background-color: #F1C50E;
+                background-color: #ba2d2d;
 
                 @media(max-width: 900px) {
                     width: 50%;
@@ -64,6 +70,7 @@
                 background: transparent;
                 border: 2px solid $color-1;
                 color: $color-1;
+                font-weight: bolder;
                 transition: all .3s;
 
                 &:hover {

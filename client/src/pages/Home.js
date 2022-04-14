@@ -8,11 +8,13 @@ import Footer from '../components/Footer';
 const Home = () => {
 
     const today = new Date().toISOString().split('T')[0]
-    let jour = new Date(today)
+
+    const [start, setStart] = useState(today)
+
+    let jour = new Date(start)
     jour.setDate(jour.getDate() + 3)
     let demain = jour.toISOString().split('T')[0]
 
-    const [start, setStart] = useState(today)
     const [end, setEnd] = useState(demain)
     const [time, setTime] = useState(3)
     const [heure, setHeure] = useState('08:30')
@@ -36,6 +38,7 @@ const Home = () => {
 
     const tomorrowDate = e => {
         setEnd(e.target.value)
+
     }
 
     const changeHeure = e => {
