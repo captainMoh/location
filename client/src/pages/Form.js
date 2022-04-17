@@ -17,6 +17,22 @@ const Form = () => {
 
     const { id_voiture, start, end, voiture, heure, lieuRdv } = useParams()
 
+    const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('')
+    const number = "0123456789".split('')
+    const nombreLettre = 11
+    const nombreChiffre = 4
+    const numReservation = []
+
+    const creerNumReservation = (table, nb) => {
+        for(let i = 0; i < nb; i++) {
+            let valeur = Math.floor(Math.random() * table.length)
+             numReservation.push(table[valeur])
+        }
+    }
+
+    creerNumReservation(upperCase, nombreLettre)
+    creerNumReservation(number, nombreChiffre)
+
     const [prenom, setPrenom] = useState('')
     const [nom, setNom] = useState('')
     const [email, setEmail] = useState('')
@@ -62,10 +78,11 @@ const Form = () => {
     }
 
     let object = {
+        numReservation: numReservation.join(''),
         lieu: lieuRdv,
-        sortie: start,
-        retour: end,
-        heure: heure,
+        sortie: start.split('-').reverse().join('-'),
+        retour: end.split('-').reverse().join('-'),
+        heure: heure.split(':').join('h'),
         genre: selectedRadio,
         prenom: prenom,
         nom: nom,
@@ -147,6 +164,7 @@ const Form = () => {
                                 console.log('payment fail apres 3d secure', error);
                                 setClick(false)
                                 setPaymentSuccess(false)
+                                alert(`l'authentification à échoué ou verifiez votre compte`)
                             }
                         })
                         
@@ -161,14 +179,17 @@ const Form = () => {
                 console.log(response.data.message);
                 setClick(false)
                 setPaymentSuccess(false)
+                alert('Remplissez correctement le formulaire')
                 
             } catch (error) {
                 console.log("Form.js 28 | ", error);
+                alert('une erreur est survenue')
             }
         } else {
             console.log(error.message);
             setClick(false)
             setPaymentSuccess(false)
+            alert('Verifiez vos coordonnées bancaire')
         }
 
     }

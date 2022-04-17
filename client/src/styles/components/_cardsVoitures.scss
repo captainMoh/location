@@ -68,7 +68,7 @@
     @media(max-width: 900px) {
         display: flex;
         flex-direction: column;
-        height: 450px;
+        min-height: 450px;
         padding-bottom: 5px;     
     }
 }

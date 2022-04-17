@@ -5,6 +5,8 @@ const ObjectID = require('mongoose').Types.ObjectId;
 const { Model } = require('../model/model');
 
 const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars');
+const path = require('path');
 
 
 router.get('/', (req, res) => {
@@ -76,20 +78,41 @@ const mail = async (information) => {
         },
     });
 
+    const options = {
+        viewEngine: {
+            extName: ".handlebars",
+            partialsDir: path.resolve('./views'),
+            defaultLayout: false
+        },
+        viewPath: path.resolve('./views'),
+        extName: '.handlebars'
+    }
+
+    transporter.use('compile', hbs(options))
+
     let info = await transporter.sendMail({
         from: 'aichoun026@gmail.com',
         to: `aichoun026@gmail.com, ${information.location.email}`,
         subject: "Réservation de voiture",
-        text: 
-    `
-    Bonjour, ${information.location.prenom}, vous avez loué le véhicule ${information.voiture}
-    Lieu de rendez-vous: ${information.location.lieu}  
-    Date de sortie: ${information.location.sortie} à ${information.location.heure}
-    Date de retour: ${information.location.retour} à ${information.location.heure}
-    Prénom: ${information.location.prenom}
-    Nom: ${information.location.nom}
-    Email: ${information.location.email}
-    Adresse: ${information.location.adresse}, ${information.location.code}, ${information.location.ville}`
+        template: 'index',
+        context: {
+            numReservation: information.location.numReservation,
+            nom: information.location.nom,
+            prenom: information.location.prenom,
+            voiture: information.voiture,
+            lieu: information.location.lieu,
+            sortie: information.location.sortie,
+            retour: information.location.retour,
+            heure: information.location.heure,
+            mail: information.location.email,
+            tel: information.location.tel,
+            adresse: `${information.location.adresse}, ${information.location.code} ${information.location.ville}`
+        },
+        attachments: [{
+            filename: 'logo3.PNG',
+            path: './client/src/image/logo3.PNG',
+            cid: 'logo'
+        }]
         
     });
 }

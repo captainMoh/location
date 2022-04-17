@@ -5,8 +5,100 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        *, ::before, ::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .main {
+            margin: auto;
+            width: 100%;
+            height: 100%;
+            color: #f1f1f1;
+            background-color: #101010;
+        }
+
+        .logo {
+            width: 100%;
+            height: auto;
+            margin: auto;
+            border-bottom: 2px solid #f1f1f1;
+        }
+
+        .name {
+            width: 100%;
+            padding: 25px 0 25px 1rem;
+            background-color: #FFD200;
+            color: #101010;
+        }
+
+        .informations {
+            width: 100%;
+            padding-left: 1rem;
+            border-bottom: 2px solid #f1f1f1;
+        }
+
+        .depart, .retour, .infos-client {
+            width: 100%;
+            height: 100%;
+            padding: 20px 0;
+        }
+
+        footer {
+            width: 100%;
+            height: auto;
+            text-align: center;
+        }
+
+    </style>
 </head>
 <body>
-    
+    <div class="main">
+        <div class="logo"><img src="cid:logo" /></div>
+        <div class="name">
+            <h1>Bonjour {{nom}} {{prenom}},<br />
+            Vous avez loué le véhicule <strong>{{voiture}}</strong>.</h1>
+            <p>Votre N° réservation est le {{numReservation}}</p>
+        </div>
+        <div class="informations">
+            <div class="depart">
+                <h1>DÉPART</h1>
+                <p>lieu de rendez-vous: <strong>{{lieu}}</strong></p>
+                <p>Date et heure: <strong>{{sortie}} à {{heure}}</strong></p>
+            </div>
+
+            <div class="retour">
+                <h1>RETOUR</h1>
+                <p>lieu de rendez-vous: <strong>{{lieu}}</strong></p>
+                <p>Date et heure: <strong>{{retour}} à {{heure}}</strong></p>
+            </div>
+
+            <div class="infos-client">
+                <h1>Vos informations personnelles</h1>
+                <p><strong>{{nom}} {{prenom}}</strong></p>
+                <p><strong>{{tel}}</strong></p>
+                <p><strong>{{mail}}</strong></p>
+                <p><strong>{{adresse}}</strong></p>
+            </div>
+        </div>
+
+        <footer>
+            <h3>Pour toute questions veuillez nous contacter par mail: <a href="mailto:aichoun026@gmail.com">aichoun026@gmail.com</a>,<br />
+            par téléphone ou whatsapp au <a href="tel:+212639674394">+212 6 39 67 43 94</a></h3>
+        </footer>
+    </div>
 </body>
 </html>

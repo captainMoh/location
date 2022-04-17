@@ -39,7 +39,6 @@
                 align-items: center;
                 gap: 2rem;
                 width: 100%;
-                //font-size: large;
 
                 @supports not (gap: 2rem) {
                     & > *:not(:first-child) {
@@ -52,7 +51,7 @@
                     background-color: rgba($color: #000000, $alpha: 0.0);
                     border: 1px solid $color-3;
                     color: $color-3;
-                    //font-size: large;
+                    font-size: 1rem;
                 }
                 
                 @media(max-width: 1326px) {

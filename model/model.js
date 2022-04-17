@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 
 const userVoiture = new mongoose.Schema({
+    numReservation: {
+        type: String,
+        required: true
+    },
     lieu: {
         type: String,
         required: true
