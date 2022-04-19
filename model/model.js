@@ -43,7 +43,8 @@ const userVoiture = new mongoose.Schema({
         required: true
     },
     tel: {
-        type: String
+        type: String,
+        required: true
     },              
     code: {
         type: String,

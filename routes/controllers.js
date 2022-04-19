@@ -68,6 +68,8 @@ router.patch('/:id', (req, res) => {
 })
 
 
+
+
 const mail = async (information) => {
 
     let transporter = nodemailer.createTransport({
@@ -101,8 +103,8 @@ const mail = async (information) => {
             prenom: information.location.prenom,
             voiture: information.voiture,
             lieu: information.location.lieu,
-            sortie: information.location.sortie,
-            retour: information.location.retour,
+            sortie: information.location.sortie.split('-').reverse().join('-'),
+            retour: information.location.retour.split('-').reverse().join('-'),
             heure: information.location.heure,
             mail: information.location.email,
             tel: information.location.tel,
@@ -127,7 +129,7 @@ router.put('/:id', (req, res) => {
 
     Model.findByIdAndUpdate(
         req.params.id,
-        { $set: updateRecord },
+        { $addToSet: updateRecord },
         { new: true },
         (err, docs) => {
             if(!err) res.send(docs)

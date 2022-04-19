@@ -80,8 +80,8 @@ const Form = () => {
     let object = {
         numReservation: numReservation.join(''),
         lieu: lieuRdv,
-        sortie: start.split('-').reverse().join('-'),
-        retour: end.split('-').reverse().join('-'),
+        sortie: start,
+        retour: end,
         heure: heure.split(':').join('h'),
         genre: selectedRadio,
         prenom: prenom,
@@ -240,7 +240,7 @@ const Form = () => {
                     </div>
                         
                     <div className="adresse">
-                        <input id="input-adresse" pattern='[^<>]+' placeholder="Adresse *" value={adresse} onChange={e => setAdresse(e.target.value)} minLength="5" />
+                        <input id="input-adresse" pattern='[^<>]+' placeholder="Adresse *" value={adresse} onChange={e => setAdresse(e.target.value)} minLength="5" required />
                     </div>
 
                     <div className="telephone">
@@ -248,7 +248,7 @@ const Form = () => {
                             <option>+212</option>
                             <option>+33</option>
                             <option>+32</option>
-                        </select><input type="tel" placeholder="0650123456" value={telephone}  onChange={e => setTelephone(e.target.value)} pattern="[0-9]{10}|[0-9]{9}" id="input-tel" />
+                        </select><input type="tel" placeholder="0650123456" value={telephone}  onChange={e => setTelephone(e.target.value)} pattern="[0-9]{10}|[0-9]{9}" id="input-tel" required />
                         
                     </div>
 
