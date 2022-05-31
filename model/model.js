@@ -69,6 +69,10 @@ const voiture = new mongoose.Schema({
         type: String,
         required: true
     },
+    prix: {
+        type: Number,
+        required: true
+    },
     location: {
         type: [userVoiture],
         default: undefined
@@ -76,5 +80,5 @@ const voiture = new mongoose.Schema({
 })
 
 
-module.exports.Model = mongoose.model('voiture', voiture)
+module.exports.Voiture = mongoose.model('voiture', voiture)
 

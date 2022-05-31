@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import Header from '../components/Header';
@@ -17,21 +17,10 @@ const Form = () => {
 
     const { id_voiture, start, end, voiture, heure, lieuRdv } = useParams()
 
-    const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('')
-    const number = "0123456789".split('')
-    const nombreLettre = 11
-    const nombreChiffre = 4
-    const numReservation = []
+    const numReservation = useMemo(() => {
+        return Math.random().toString(36).replace(/[0-9]/g, '').substring(1,10).toUpperCase() + new Date().getTime();
+    }, [])
 
-    const creerNumReservation = (table, nb) => {
-        for(let i = 0; i < nb; i++) {
-            let valeur = Math.floor(Math.random() * table.length)
-             numReservation.push(table[valeur])
-        }
-    }
-
-    creerNumReservation(upperCase, nombreLettre)
-    creerNumReservation(number, nombreChiffre)
 
     const [prenom, setPrenom] = useState('')
     const [nom, setNom] = useState('')
@@ -46,39 +35,38 @@ const Form = () => {
     const [codePays, setCodePays] = useState('+212')
     const radios = ['M.', 'Mme.']
 
-    let identifiant
-    let background
-    let prix
-    let time = (new Date(end) - new Date(start)) / (1000*60*60*24)
+    const time = useMemo(() => {
+        return (new Date(end) - new Date(start)) / (1000*60*60*24)
+    }, [end, start])
 
-    switch (id_voiture) {
-        case '61aaad69b24387c1b8a7ee09':
-            identifiant = 1;
-            prix = 50;
-            background = background0;
-            break;
-        case '61aaad89b24387c1b8a7ee0e':
-            identifiant = 2;
-            prix = 40;
-            background = background1;
-            break;
-        case '61aaad9cb24387c1b8a7ee11':
-            identifiant = 3;
-            prix = 30;
-            background = background2;
-            break;
-        case '61aaada8b24387c1b8a7ee14':
-            identifiant = 4;
-            prix = 20;
-            background = background3;
-            break;
-        default:
-            identifiant = 1;
-            break;
+    const voitures = {
+        '61aaad69b24387c1b8a7ee09': {
+            identifiant: 1,
+            prix: 50,
+            background: background0
+        },
+        '61aaad89b24387c1b8a7ee0e': {
+            identifiant: 2,
+            prix: 40,
+            background: background1
+        },
+        '61aaad9cb24387c1b8a7ee11': {
+            identifiant: 3,
+            prix: 30,
+            background: background2
+        },
+        '61aaada8b24387c1b8a7ee14': {
+            identifiant: 4,
+            prix: 20,
+            background: background3
+        }
+
     }
 
+    const currentVoiture = voitures[id_voiture]
+
     let object = {
-        numReservation: numReservation.join(''),
+        numReservation: numReservation,
         lieu: lieuRdv,
         sortie: start,
         retour: end,
@@ -90,23 +78,22 @@ const Form = () => {
         tel: `${codePays} ${telephone}`,
         code: codePostale,
         ville: ville,
-        adresse: adresse,
+        adresse: adresse
     }
 
     const options = {
         headers: {'Content-Type': 'application/json; charset=UTF-8'}
     }
 
-    const modif = async (e) => {
-        await axios.patch(`/voiture/${id_voiture}`, { location:object, voiture:voiture }, options)
+    const modif = e => {
+        axios.patch(`/voiture/${id_voiture}`, { location:object, voiture:voiture }, options)
         .then(res => {
             console.log(res.data)
+            window.location.href = '/success'
         })
-
-        window.location.href = '/success'
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
         setClick(true)
         if(!stripe || !elements) return;
@@ -127,71 +114,50 @@ const Form = () => {
         });
 
         if(!error) {
-
-            //console.log('Stripe 23 | token generé', paymentMethod);
-
-            try {
-                const { id } = paymentMethod
-                const response = await axios.post(
-                    '/create-payment-intent',
-                    {
-                        identifiant,
-                        time,
-                        id
-                    }
-                )
-
-                //console.log('stripe 35 | data', response);
-
-                if(response.data.success) {
-
-                    if(response.data.payment.status === 'requires_action') {
-                        await stripe.confirmCardPayment(
-                            response.data.clientSecret, {
-                                payment_method: {
-                                    card: elements.getElement(CardElement),
-                                    billing_details: paymentMethod.billing_details
-                                },
-                            }
-                        ).then((res) => {
-                            try {
-                                if (res.paymentIntent.status === 'succeeded') {
-                                    //setPaymentSuccess(true)
-                                    //console.log('payment successful apres 3d secure !');
-                                    modif()
-                                }
-                            } catch(error) {
-                                console.log('payment fail apres 3d secure', error);
-                                setClick(false)
-                                setPaymentSuccess(false)
-                                alert(`l'authentification à échoué ou verifiez votre compte`)
-                            }
-                        })
-                        
-                    }
-                    else if (response.data.payment.status === 'succeeded') {
-                        //console.log("payment successful direct!");
-                        //setPaymentSuccess(true)
-                        modif()
-                    } 
-                    return
+            const { id } = paymentMethod
+            axios.post(
+                '/create-payment-intent',
+                {
+                    identifiant: currentVoiture.identifiant,
+                    time,
+                    id
                 }
-                console.log(response.data.message);
+            ).then(response => {
+                if(response.data.payment.status === 'requires_action') {
+                    stripe.confirmCardPayment(
+                        response.data.clientSecret, {
+                            payment_method: {
+                                card: elements.getElement(CardElement),
+                                billing_details: paymentMethod.billing_details
+                            },
+                        }
+                    ).then(() => {
+                        modif()
+                    }).catch(error => {
+                        console.log('payment fail apres 3d secure', error);
+                        setClick(false)
+                        setPaymentSuccess(false)
+                        alert(`l'authentification à échoué ou verifiez votre compte`)
+                    }) 
+                    
+                }
+                else if (response.data.payment.status === 'succeeded') {
+                    //succès direct
+                    modif()
+                }
+
+            }).catch(error => {
+                console.log(error.message);
                 setClick(false)
                 setPaymentSuccess(false)
-                alert('Remplissez correctement le formulaire')
-                
-            } catch (error) {
-                console.log("Form.js 28 | ", error);
-                alert('une erreur est survenue')
-            }
+                alert('Verifiez vos coordonnées bancaire')
+            })
+            
         } else {
-            console.log(error.message);
             setClick(false)
             setPaymentSuccess(false)
-            alert('Verifiez vos coordonnées bancaire')
+            alert('Remplissez correctement le formulaire')
         }
-
     }
 
 
@@ -203,25 +169,25 @@ const Form = () => {
             <div className="reservation">
                 <div className="resume">
                     <h1>{voiture}</h1>
-                    <div className="image" style={{background: `url(${background}) center/contain no-repeat`}}></div>
+                    <div className="image" style={{background: `url(${currentVoiture.background}) center/contain no-repeat`}}></div>
                     <div className="informations">
                         <p>Lieu de rendez-vous : <span>{lieuRdv}</span></p>
                         <p>Départ : <span>{start.split('-').reverse().join('-')} à {heure.split(':').join('h')}</span></p>
                         <p>Retour : <span>{end.split('-').reverse().join('-')} à {heure.split(':').join('h')}</span></p>
-                        <p>Prix de la Réservation : <span>{prix * time}€</span></p>
+                        <p>Prix de la Réservation : <span>{currentVoiture.prix * time}€</span></p>
                     </div>
                 </div>
                 <form id="formulaire" onSubmit={handleSubmit} >
                     <div className="radio">
-                    {radios.map(radio => {
-                        return(
+                    {radios.map(radio => 
+                        (
                             <li key={radio}>
                                 <input type='radio' value={radio} id={radio}
                                 checked={radio === selectedRadio} onChange={e => setSelectedRadio(e.target.value)} />
                                 <label htmlFor={radio}>{radio}</label>
                             </li>
                         )
-                    })}
+                    )}
                     </div>
 
                     <div className="prenom-nom">

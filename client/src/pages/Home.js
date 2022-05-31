@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import axios from 'axios'
 import CardsVoitures from '../components/CardsVoitures';
 import Header from '../components/Header';
@@ -6,12 +6,14 @@ import loader from '../assets/tail-spin.svg';
 import Footer from '../components/Footer';
 
 const Home = () => {
-
-    const today = new Date().toISOString().split('T')[0]
+    //const today = new Date().toISOString().split('T')[0]
+    const today = useMemo (( ) => 
+         new Date().toISOString().split('T')[0],
+        [])
 
     const [start, setStart] = useState(today)
 
-    let jour = new Date(start)
+    const jour = new Date(start)
     jour.setDate(jour.getDate() + 3)
     let demain = jour.toISOString().split('T')[0]
 
@@ -20,12 +22,8 @@ const Home = () => {
     const [heure, setHeure] = useState('08:30')
     const [lieuRdv, setLieuRdv] = useState('Ahfir')
     const [aucuneVoitureLibre, setAucuneVoitureLibre] = useState(false)
-    const [count, setCount] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
-
-    const [data, setData] = useState([])
     const [disponible, setDisponible] = useState([])
-    const nombreVoiture = 4
 
     const date = e => {
         setStart(e.target.value)
@@ -49,37 +47,6 @@ const Home = () => {
         setLieuRdv(e.target.value)
     }
 
-    useEffect(() => {
-
-        const appelApi = async () => {
-            
-            
-                await axios.get('/voiture')
-                .then(res => {
-                    setData(res.data)
-                })
-            
-        }
-
-        appelApi()
-
-    }, [count])
-   
-    const voitureDispo = (numVoiture, tab) => {
-        
-        let indispo = 0
-        data[numVoiture].location.forEach(date => {
-            if(!((new Date(start) < new Date(date.sortie) && new Date(end) < new Date(date.sortie)) || (new Date(start) > new Date(date.retour) && new Date(end) > new Date(date.retour)))){
-                indispo++
-            }
-        })
-
-        if (indispo === 0) {
-            tab.push(data[numVoiture])
-        }
-        
-    }
-
     const calculTemps = async () => {
         let debut = new Date(start)
         let fin = new Date(end)
@@ -87,21 +54,39 @@ const Home = () => {
     }
 
     const rechercher = () => {
+        const voituresDisponibles = []
         setIsLoading(true)
-        setCount(count + 1)
-        const tableau = []
-        for (let i = 0; i < nombreVoiture; i++) {
-            voitureDispo(i, tableau)
-        }
-        setDisponible(tableau)
-        calculTemps()
+        axios.get('/voiture')
+            .then(res => {
 
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 500);
-
-        if(tableau.length === 0) return setAucuneVoitureLibre(true) 
-        setAucuneVoitureLibre(false)
+                res.data.filter(voiture => {
+                    const voitureLibre = voiture.location.map(date => {
+                        if(!((new Date(start) < new Date(date.sortie) && new Date(end) < new Date(date.sortie))
+                        || (new Date(start) > new Date(date.retour) && new Date(end) > new Date(date.retour)))){
+                            return false
+                        }
+                        return date
+                    })
+                    
+                    if(!voitureLibre.includes(false)) voituresDisponibles.push(voiture)
+                    return voituresDisponibles
+                })
+                
+                setDisponible(voituresDisponibles)
+                calculTemps()
+                
+                if(voituresDisponibles.length === 0) {
+                    setAucuneVoitureLibre(true) 
+                    setIsLoading(false)
+                    return
+                }
+                setAucuneVoitureLibre(false)
+                setIsLoading(false)
+            })
+            .catch(error => {
+                setIsLoading(false)
+                console.log(error)
+            })
     }
     
     return (

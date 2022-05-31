@@ -12,7 +12,7 @@ const Footer = () => {
                         <FontAwesomeIcon icon={faPhone} /> <a href="tel:+212639674394">+212 6 39 67 43 94</a> / <a href='tel:+212625053393'>+212 6 25 05 33 93</a>
                     </p>
                     <p>
-                        <FontAwesomeIcon icon={faMapLocation} /> <a href='/'>28 Rue El Moutanabi Hay salam - Berkane</a>  / <a href='https://goo.gl/maps/WyrskeW6AmS3ykhy6' target='_blank'>82 Rue Khalid Ibn Walid - Ahfir</a>
+                        <FontAwesomeIcon icon={faMapLocation} /> <a href='/'>28 Rue El Moutanabi Hay salam - Berkane</a> / <a href='https://goo.gl/maps/WyrskeW6AmS3ykhy6'>82 Rue Khalid Ibn Walid - Ahfir</a>
                     </p>
                     
                 </div>

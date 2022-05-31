@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ObjectID = require('mongoose').Types.ObjectId;
 
-const { Model } = require('../model/model');
+const { Voiture } = require('../model/model');
 
 const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-express-handlebars');
@@ -10,7 +10,7 @@ const path = require('path');
 
 
 router.get('/', (req, res) => {
-    Model.find((err, docs) => {
+    Voiture.find((err, docs) => {
         if(!err) res.send(docs)
         else console.log(`Error to get data: ${err}`);
     })
@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
     if(!ObjectID.isValid(req.params.id))
         return res.status(400).send(`ID unknown: ${req.params.id}`)
 
-    Model.findById(
+    Voiture.findById(
         req.params.id,
         (err, docs) => {
         if(!err) res.send(docs)
@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const newRecord = new Model({
+    const newRecord = new Voiture({
         voiture: req.body.voiture,
         location: req.body.location
     })
@@ -54,7 +54,7 @@ router.patch('/:id', (req, res) => {
         voiture: req.body.voiture
     }
 
-    Model.findByIdAndUpdate(
+    Voiture.findByIdAndUpdate(
         req.params.id,
         { $addToSet: updateRecord },
         { new: true, upsert: true },
@@ -127,7 +127,7 @@ router.put('/:id', (req, res) => {
         location: req.body.location
     }
 
-    Model.findByIdAndUpdate(
+    Voiture.findByIdAndUpdate(
         req.params.id,
         { $addToSet: updateRecord },
         { new: true },
@@ -142,7 +142,7 @@ router.delete('/:id', (req, res) => {
     if(!ObjectID.isValid(req.params.id))
         return res.status(400).send(`ID unknown: ${req.params.id}`)
 
-    Model.findByIdAndRemove(
+    Voiture.findByIdAndRemove(
         req.params.id,
         (err, docs) => {
             if(!err) res.send(docs)
