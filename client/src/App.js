@@ -8,6 +8,7 @@ import StripeContainer from "./components/StripeContainer";
 import Accueil from "./pages/Accueil";
 import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
+import Admin from "./pages/Admin";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path='/success' element={<Success />} />
         <Route path='/reservation-voiture/formulaire/:start/:end/:heure/:lieuRdv/:voiture/:id_voiture' element={<StripeContainer />} />
+        <Route path='/admin' element={<Admin />} />
         <Route path='/*' element={<NotFound />} />
       </Routes>
     </Router>

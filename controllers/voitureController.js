@@ -1,34 +1,73 @@
-const express = require('express');
-const router = express.Router();
 const ObjectID = require('mongoose').Types.ObjectId;
 
-const { Voiture } = require('../model/model');
+const { Voiture } = require('../model/Voiture');
 
 const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-express-handlebars');
 const path = require('path');
 
 
-router.get('/', (req, res) => {
+exports.getAllVoitures = (req, res, next) => {
     Voiture.find((err, docs) => {
-        if(!err) res.send(docs)
+        if(!err) {
+            const voitureModel = docs.map(doc => {
+                const { prix, voiture, _id } = doc
+                return {_id, voiture, prix}
+            })
+
+            res.send(voitureModel)
+        }
         else console.log(`Error to get data: ${err}`);
     })
-})
+}
 
-router.get('/:id', (req, res) => {
+exports.postDates = (req, res, next) => {
+    
+    const { start, end } = req.body.date
+
+    Voiture.find((err, docs) => {
+        if(!err) {
+            const voitureDisponibles = []
+            docs.forEach(voiture => {
+                const voitureFiltre = voiture.location.map(location => {
+                    const libreAvantLocation = (new Date(start) < new Date(location.sortie)) && (new Date(end) < new Date(location.sortie))
+                    const libreApresLocation = (new Date(start) > new Date(location.retour)) && (new Date(end) > new Date(location.retour))
+                    if((libreApresLocation || libreAvantLocation)) {
+                        return location
+                    } 
+                    return false
+                })
+
+                if(!voitureFiltre.includes(false)) voitureDisponibles.push(voiture)
+                return voitureDisponibles
+            })
+
+            const voitureModel = voitureDisponibles.map(doc => {
+                const { prix, voiture, _id } = doc
+                return {_id, voiture, prix}
+            })
+            res.send(voitureModel)
+        }
+        else console.log(`Error to get data: ${err}`);
+    })    
+}
+
+exports.getOneVoitures = ('/:id', (req, res) => {
     if(!ObjectID.isValid(req.params.id))
         return res.status(400).send(`ID unknown: ${req.params.id}`)
 
     Voiture.findById(
         req.params.id,
         (err, docs) => {
-        if(!err) res.send(docs)
+        if(!err) {
+            const { voiture, prix } = docs
+            res.send({ voiture, prix })
+        }
         else console.log(`Error to get data: ${err}`);
     })
 })
 
-router.post('/', (req, res) => {
+exports.CreateVoiture = ('/', (req, res) => {
     const newRecord = new Voiture({
         voiture: req.body.voiture,
         location: req.body.location
@@ -41,7 +80,7 @@ router.post('/', (req, res) => {
 
 })
 
-router.patch('/:id', (req, res) => {
+exports.addNewReservationToVoiture = ('/:id', (req, res) => {
     if(!ObjectID.isValid(req.params.id))
         return res.status(400).send(`ID unknown: ${req.params.id}`)
 
@@ -63,12 +102,8 @@ router.patch('/:id', (req, res) => {
             else console.log(`Update error : ${err}`);
         }
     )
-    console.log(information);
-    mail(information);
+    mail(information)
 })
-
-
-
 
 const mail = async (information) => {
 
@@ -119,36 +154,5 @@ const mail = async (information) => {
     });
 }
 
-router.put('/:id', (req, res) => {
-    if(!ObjectID.isValid(req.params.id))
-        return res.status(400).send(`ID unknown: ${req.params.id}`)
 
-    const updateRecord = {
-        location: req.body.location
-    }
 
-    Voiture.findByIdAndUpdate(
-        req.params.id,
-        { $addToSet: updateRecord },
-        { new: true },
-        (err, docs) => {
-            if(!err) res.send(docs)
-            else console.log(`Update error : ${err}`);
-        }
-    )
-})
-
-router.delete('/:id', (req, res) => {
-    if(!ObjectID.isValid(req.params.id))
-        return res.status(400).send(`ID unknown: ${req.params.id}`)
-
-    Voiture.findByIdAndRemove(
-        req.params.id,
-        (err, docs) => {
-            if(!err) res.send(docs)
-            else console.log(`Delete error : ${err}`);
-        }
-    )
-})
-
-module.exports = router

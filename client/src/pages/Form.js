@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -14,6 +14,8 @@ const Form = () => {
 
     const stripe = useStripe();
     const elements = useElements();
+
+    const navigate = useNavigate()
 
     const { id_voiture, start, end, voiture, heure, lieuRdv } = useParams()
 
@@ -41,24 +43,20 @@ const Form = () => {
 
     const voitures = {
         '61aaad69b24387c1b8a7ee09': {
-            identifiant: 1,
-            prix: 50,
-            background: background0
+            background: background0,
+            prix: 50
         },
         '61aaad89b24387c1b8a7ee0e': {
-            identifiant: 2,
-            prix: 40,
-            background: background1
+            background: background1,
+            prix: 40
         },
         '61aaad9cb24387c1b8a7ee11': {
-            identifiant: 3,
-            prix: 30,
-            background: background2
+            background: background2,
+            prix: 30
         },
         '61aaada8b24387c1b8a7ee14': {
-            identifiant: 4,
-            prix: 20,
-            background: background3
+            background: background3,
+            prix: 20
         }
 
     }
@@ -87,9 +85,8 @@ const Form = () => {
 
     const modif = e => {
         axios.patch(`/voiture/${id_voiture}`, { location:object, voiture:voiture }, options)
-        .then(res => {
-            console.log(res.data)
-            window.location.href = '/success'
+        .then(() => {
+            navigate('../success', { replace: true })
         })
     }
 
@@ -118,9 +115,9 @@ const Form = () => {
             axios.post(
                 '/create-payment-intent',
                 {
-                    identifiant: currentVoiture.identifiant,
                     time,
-                    id
+                    id,
+                    id_voiture
                 }
             ).then(response => {
                 if(response.data.payment.status === 'requires_action') {

@@ -6,8 +6,8 @@ import loader from '../assets/tail-spin.svg';
 import Footer from '../components/Footer';
 
 const Home = () => {
-    //const today = new Date().toISOString().split('T')[0]
-    const today = useMemo (( ) => 
+    
+    const today = useMemo (() => 
          new Date().toISOString().split('T')[0],
         [])
 
@@ -54,28 +54,23 @@ const Home = () => {
     }
 
     const rechercher = () => {
-        const voituresDisponibles = []
-        setIsLoading(true)
-        axios.get('/voiture')
-            .then(res => {
 
-                res.data.filter(voiture => {
-                    const voitureLibre = voiture.location.map(date => {
-                        if(!((new Date(start) < new Date(date.sortie) && new Date(end) < new Date(date.sortie))
-                        || (new Date(start) > new Date(date.retour) && new Date(end) > new Date(date.retour)))){
-                            return false
-                        }
-                        return date
-                    })
-                    
-                    if(!voitureLibre.includes(false)) voituresDisponibles.push(voiture)
-                    return voituresDisponibles
-                })
+        setIsLoading(true)
+        
+            const options = {
+                headers: {'Content-Type': 'application/json; charset=UTF-8'}
+            }
+            const date = {
+                start,
+                end
+            }
+            axios.post('/voiture/dates', {date}, options)
+            .then(res => {
+                setDisponible(res.data)
                 
-                setDisponible(voituresDisponibles)
                 calculTemps()
-                
-                if(voituresDisponibles.length === 0) {
+
+                if(res.data.length === 0) {
                     setAucuneVoitureLibre(true) 
                     setIsLoading(false)
                     return

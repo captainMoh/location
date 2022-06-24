@@ -10,36 +10,30 @@ import background3 from '../image/stepway.png'
 
 
 const CardsVoitures = ({ voiture, start, end, heure, lieuRdv, time }) => {
-    let identifiant
-    let prix
+
     let carburant = 'Diesel'
 
-    switch (voiture._id) {
-        case '61aaad69b24387c1b8a7ee09':
-            identifiant = background0;
-            prix = 50;
-            break;
-        case '61aaad89b24387c1b8a7ee0e':
-            identifiant = background1;
-            prix = 40;
-            break;
-        case '61aaad9cb24387c1b8a7ee11':
-            identifiant = background2;
-            prix = 30;
-            break;
-        case '61aaada8b24387c1b8a7ee14':
-            identifiant = background3;
-            prix = 20;
-            break;
-        default:
-            identifiant = 1;
-            break;
+    const backgroundVoiture = {
+        '61aaad69b24387c1b8a7ee09': {
+            imageVoiture: background0
+        },
+        '61aaad89b24387c1b8a7ee0e': {
+            imageVoiture: background1
+        },
+        '61aaad9cb24387c1b8a7ee11': {
+            imageVoiture: background2
+        },
+        '61aaada8b24387c1b8a7ee14': {
+            imageVoiture:  background3
+        }
     }
+
+    const currentVoiture = backgroundVoiture[voiture._id]
 
     return (
         <div className='cardsVoitures'>
             <div className="image_voiture" style={{
-                background: `url(${identifiant}) center/contain no-repeat`,
+                background: `url(${currentVoiture.imageVoiture}) center/contain no-repeat`,
             }}>
             </div>
             
@@ -55,8 +49,8 @@ const CardsVoitures = ({ voiture, start, end, heure, lieuRdv, time }) => {
 
             <div className='prix_voiture'>
                 <div className="infos_prix">
-                    <h1>{time * prix}€</h1>
-                    <p>{prix}€/Jour</p>
+                    <h1>{time * voiture.prix}€</h1>
+                    <p>{voiture.prix}€/Jour</p>
                 </div>
                 <Link to={`formulaire/${start}/${end}/${heure}/${lieuRdv}/${voiture.voiture}/${voiture._id}`}>Réserver maintenant <FontAwesomeIcon icon={faAngleDoubleRight} /></Link>
             </div>

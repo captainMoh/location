@@ -1,0 +1,28 @@
+.admin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    color: $color-1;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 50%;
+        
+        input, label {
+            cursor: auto;
+            padding: 10px 5px;
+        }
+
+        button {
+            margin: 1rem auto;
+            padding: 10px 5px;
+            font-size: larger;
+            cursor: pointer;
+            width: 50%;
+        }
+    }
+}
